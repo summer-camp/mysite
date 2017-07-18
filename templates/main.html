@@ -3,9 +3,10 @@
   <body>
     <h1>{{ the_heading }}</h1>
     <ul>
-      {% for item in items %}
-      <li>{{ item }}</li>
-      {% endfor %}
+	    {% for item in items %}
+       <li>{{ item }}</li>
+       {% endfor %}
     </ul>
+    <p>Your last choice was {{ session.letter }}
   </body>
 </html>
