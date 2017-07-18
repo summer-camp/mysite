@@ -3,7 +3,8 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('main.html', the_heading="Hello")
+    return render_template('main.html', the_heading="Hello",
+            items=['a', 'second', '7', 'item4'])
 
 @app.route('/start')
 def start():
