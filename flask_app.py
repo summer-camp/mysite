@@ -3,4 +3,8 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-   return 'Here is a new line!'
+    return 'Here is a new line!'
+
+@app.route('/start')
+def start():
+    return 'Lets start a new game!'
