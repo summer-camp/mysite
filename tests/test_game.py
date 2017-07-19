@@ -36,7 +36,7 @@ def test_2_errors():
         state = game.turn(state, letter)
 
     assert state['errors'] == 2
-    
+
     expected_turns = game.MAX_ERRORS - 2
     expected_message = "You win, word was '%s'. You had %s turns left" % (
         word, expected_turns)

@@ -16,8 +16,12 @@
             <td>
               <table>
                 <tr>
-                {% for letter in state.letters %}
-                <td width=50><a href="{{ url_for('next_turn', letter=letter) }}"><font size=16 face="Courier New" >{{ letter.upper() }}</font></a></td>
+                {% for letter in letters %}
+                {% if letter in state.chosen %}
+                  <td width=50><font size=16 face="Courier New" color="white">{{ letter.upper() }}</font></td>
+                {% else %}
+                  <td width=50><a href="{{ url_for('next_turn', letter=letter) }}"><font size=16 face="Courier New" >{{ letter.upper() }}</font></a></td>
+                {% endif %}
                 {% if loop.index is divisibleby 4 %}</tr><tr>{% endif %}
                 {% endfor %}
                 </tr>

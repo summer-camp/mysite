@@ -1,17 +1,20 @@
 import os
 import random
-from pprint import pprint
 
 WORD_FILE = os.path.abspath(os.path.join(os.path.split(__file__)[0], "words.txt"))
-LETTERS = [chr(ord('a') + i) for i in range(26)]
+LETTERS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+           'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 MAX_ERRORS = 6
 
 def choose_word():
     words = open(WORD_FILE).readlines()
-    if words[-1].strip() == '':
-        words = words[:-1]
 
-    return random.choice(words).strip().lower()
+    # in case we have empty lines, we'll keep looping until
+    # we get a word that has some letters in it
+    word = ''
+    while len(word) == 0:
+        word = random.choice(words).strip().lower()
+    return word
 
 def reset_state(word):
     """return an empty game state"""
@@ -20,7 +23,7 @@ def reset_state(word):
         'errors': 0,
         'word': word,
         'guessed': ['_'] * len(word),
-        'letters': list(LETTERS),  # we need to
+        'chosen': [],
         'message': None,
     }
 
@@ -42,12 +45,12 @@ def turn(state, letter):
 
     # Is the letter is not in the letters list, we must have already
     # chosen it the show a letter.
-    if letter not in state['letters']:
+    if letter in state['chosen']:
         state['message'] = "ERROR: Repeated letter"
         return state
 
     # delete the letter from the letters list so that we cannot choose it again
-    state['letters'][ord(letter) - ord('a')] = ''
+    state['chosen'].append(letter)
 
     if letter not in state['word']:
         state['errors'] += 1
@@ -61,12 +64,12 @@ def turn(state, letter):
     # if we have 6 errors then it is game over
     if state['errors'] == MAX_ERRORS:
         state['message'] = "You LOOSE, word was '%s'" % state['word']
-        state['letters'] = []
+        state['chosen'] = LETTERS
 
     # if there are no more blank characters in guessed then we have won
     if '_' not in state['guessed']:
         state['message'] = "You win, word was '%s'. You had %d turns left" % (
             state['word'], MAX_ERRORS - state['errors'])
-        state['letters'] = []
+        state['chosen'] = LETTERS
 
     return state
